@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eimzo_not_install">У вас не установлен E-IMZO. Перейти в Google Play?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <!--    REGEX
+
+    FIO = "CN"                      //  Ф.И.О
+    YUR_TIN = "1.2.860.3.16.1.1"    //  ЮРИДИЧЕСКИЙ ИНН
+    FIZ_TIN = "UID"                 //  ИНДИВИДУАЛЬНИЙ ИНН
+    FORENAME = "Name"               //  ИМЯ
+    SURNAME = "SURNAME"             //  ФАМИЛИЯ
+    AREA = "L"                      //  ОКРУГ
+    REGION = "ST"                   //  ОБЛАСТЬ
+    COUNTRY = "C"                   //  СТРАНА
+    PINFL = "1.2.860.3.16.1.2"      //  ПИНФЛ
+    EMAIL = "E"                     //  ЭЛ. АДРЕС
+    JOBTITLE = "T"                  //  ДОЛЖНОСТЬ
+    ORGANIZATION = "O"              //  ОРГАНИЗАЦИЯ
+    DEPARTMENT = "OU"               //  ОТДЕЛ
+
+    -->
+</resources>
