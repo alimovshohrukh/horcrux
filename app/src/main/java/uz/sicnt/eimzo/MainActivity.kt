@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                                 with Document parsed as Base64
              */
             horcrux.createPKCS7(this, "MESSAGE")
+
         }
 
         checkButton.setOnClickListener {
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             //  Check if users is Individual        horcrux.isIndividual()
             //  Get user tin                        horcrux.getTin()
             //  Get encoded message                 horcrux.getPKCS()
+            Log.e(horcrux.tag, horcrux.getTin())
         }
     }
 

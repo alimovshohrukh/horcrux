@@ -141,9 +141,9 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
     /**
      * Show installation dialog
      */
-    fun showInstallDialog() {
-        AlertDialog.Builder(this, R.style.exitDialog)
-            .setMessage(getString(R.string.eimzo_not_install))
+    fun showInstallDialog(activity: Activity) {
+        AlertDialog.Builder(activity, R.style.exitDialog)
+            .setMessage(R.string.eimzo_not_install)
             .setCancelable(false)
             .setPositiveButton(R.string.yes, this)
             .setNegativeButton(R.string.no, this).create().show()

@@ -16,9 +16,6 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-    buildTypes.each {
-        it.buildConfigField("String", "API_KEY", API_KEY)
-    }
     buildTypes {
         release {
             minifyEnabled false

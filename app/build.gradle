@@ -17,7 +17,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", '"8B3165C2D80160F257A68BCE0C1F950ADB5B6C38CDF03D1D5348A4D98A7A83398B8B5428D25B7706E7DD22A90756E9A8A3B175E73652355D65343F7CD337C0A0"'
+        }
         release {
+            buildConfigField "String", "API_KEY", '"8B3165C2D80160F257A68BCE0C1F950ADB5B6C38CDF03D1D5348A4D98A7A83398B8B5428D25B7706E7DD22A90756E9A8A3B175E73652355D65343F7CD337C0A0"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
