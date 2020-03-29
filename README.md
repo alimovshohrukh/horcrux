@@ -28,7 +28,23 @@ dependencies {
 Создание сборки:
 
 ```bash
-Скопируйте ваш API_KEY в файл gradle.properties следующим образом: API_KEY = "ВАШ API_KEY"
+Скопируйте ваш API_KEY в файл build.gradle следующим образом:
+android {
+   ...
+    defaultConfig {
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", '"ВАШ API_KEY"'
+        }
+        release {
+            buildConfigField "String", "API_KEY", '"ВАШ API_KEY"'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
 ```
 
 

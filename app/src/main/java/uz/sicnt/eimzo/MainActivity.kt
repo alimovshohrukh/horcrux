@@ -7,12 +7,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import uz.sicnt.eimzo.MyApplication.Companion.horcrux
 import uz.sicnt.horcrux.Constants.*
 import uz.sicnt.horcrux.Horcrux
 
 class MainActivity : AppCompatActivity() {
-
-    private val horcrux = Horcrux()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +28,7 @@ class MainActivity : AppCompatActivity() {
                                 You need to sign a Document with EDK, so you call `createPKCS7`
                                 with Document parsed as Base64
              */
-            horcrux.createPKCS7(this, "MESSAGE")
-
+            horcrux.createPKCS7(this, "{inn: 200797198,key: qG7lWQ==}")
         }
 
         checkButton.setOnClickListener {

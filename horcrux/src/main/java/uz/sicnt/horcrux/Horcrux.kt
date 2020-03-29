@@ -1,22 +1,19 @@
 package uz.sicnt.horcrux
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.util.Base64
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
 import uz.sicnt.horcrux.Constants.*
 import java.util.regex.Pattern
 
-class Horcrux : Activity(), DialogInterface.OnClickListener {
+class Horcrux(private val context: Context, private val apiKey: String) : Activity(),
+    DialogInterface.OnClickListener {
 
-    var tag: String = "HORCRUX"
-    var appKey = BuildConfig.API_KEY
+    val tag: String = "HORCRUX"
 
     private lateinit var pkcs7: String
     private var serialNumber: CharSequence? = null
@@ -42,7 +39,7 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
             E_IMZO_APP,
             E_IMZO_ACTIVITY
         )
-        intent.putExtra(EXTRA_PARAM_API_KEY, appKey)
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
         intent.putExtra(EXTRA_PARAM_SERIAL_NUMBER, serialNumber)
         intent.putExtra(EXTRA_PARAM_MESSAGE, message)
         context.startActivityForResult(intent, CREATE_PKCS7)
@@ -60,7 +57,7 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
             E_IMZO_APP,
             E_IMZO_ACTIVITY
         )
-        intent.putExtra(EXTRA_PARAM_API_KEY, appKey)
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
         intent.putExtra(EXTRA_PARAM_SERIAL_NUMBER, serialNumber)
         intent.putExtra(EXTRA_PARAM_MESSAGE, message)
         context.startActivityForResult(intent, CREATE_PKCS7)
@@ -127,8 +124,8 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
     /**
      * @return Check if E-imzo app installed
      */
-    fun isEImzoInstalled(activity: Activity): Boolean {
-        val packageManager = activity.packageManager
+    fun isEImzoInstalled(): Boolean {
+        val packageManager = context.packageManager
         var found = true
         try {
             packageManager.getPackageInfo(E_IMZO_APP, 0)
@@ -171,7 +168,7 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
      * Save temp data   FIXME
      */
     private fun writeString(key: String?, property: String?) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MyApplication.context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString(key, property)
         editor.apply()
@@ -182,7 +179,7 @@ class Horcrux : Activity(), DialogInterface.OnClickListener {
      */
     private fun readString(key: String?): String? {
         val sharedPreferences = PreferenceManager
-            .getDefaultSharedPreferences(MyApplication.context)
+            .getDefaultSharedPreferences(context)
         return sharedPreferences.getString(key, "")
     }
 
