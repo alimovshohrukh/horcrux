@@ -25,42 +25,50 @@ dependencies {
 
 У вас должен быть API_KEY, сгенерированный специально для вашего applicationId. Для получения дополнительной информации обращайтесь по номеру (71-202-3232)
 
-Создание сборки:
+Создание сборки (Kotlin):
 
-```bash
-Скопируйте ваш API_KEY в файл build.gradle следующим образом:
-android {
-   ...
-    defaultConfig {
-    }
-
-    buildTypes {
-        debug {
-            buildConfigField "String", "API_KEY", '"ВАШ API_KEY"'
-        }
-        release {
-            buildConfigField "String", "API_KEY", '"ВАШ API_KEY"'
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+```kotlin
+class MyApplication : Application() {
+ . . . .
+    override fun onCreate() {
+        super.onCreate()
+        context = applicationContext
+        // Глобальная инициализация класса
+        horcrux = Horcrux(context,"ВАШ API_KEY")
     }
 }
+```
+
+Зарегистрируйте свой класс в Manifest
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example">
+
+    <application
+    ....
+    android:name="com.example.MyApplication"
+    ....>
+        <activity android:name="com.example.MainActivity"/>
+    </application>
+
+</manifest>
 ```
 
 
 ### Пример использования
 
-Пример проекта который предоставляет примеры  использование классов в этом проекте доступен в папке `app /`
-
+Пример проекта который предоставляет примеры  использование классов в этом проекте доступен в папке `app /`. Для авторизации пользователя с помощью ЭЦП используется метод `createPKCS7` с параметром `string` (например, `random_hash`). Этот метод передает параметр в приложение E-IMZO и ожидает результат в `onActivityResult`. Здесь вы можете соответствующим образом пропарсить данные (используя RegEx `horcrux.regex`). Определения регулярных выражений можно найти в `res / strings`. Вы можете использовать данные, как вы хотите, но для использования методов `horcrux` вы ДОЛЖНЫ вызывать `parsePFX (data)` в `onActivityResult`.
 ```kotlin
-class MainActivity : AppCompatActivity() {
-    val horcrux = Horcrux()
-    . . . .
-```
-Для авторизации пользователя с помощью ЭЦП используется метод `createPKCS7` с параметром `string` (например, `random_hash`). Этот метод передает параметр в приложение E-IMZO и ожидает результат в `onActivityResult`. Здесь вы можете соответствующим образом пропарсить данные (используя RegEx `horcrux.regex`). Определения регулярных выражений можно найти в `res / strings`. Вы можете использовать данные, как вы хотите, но для использования методов `horcrux` вы ДОЛЖНЫ вызывать `parsePFX (data)` в `onActivityResult`.
-```kotlin
+import com.example.MyApplication.Companion.horcrux
 . . . .
-horcrux.createPKCS7(this, random_hash)
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        horcrux.createPKCS7(this, random_hash)
 . . . .
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CREATE_PKCS7) {
