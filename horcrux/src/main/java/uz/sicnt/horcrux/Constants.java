@@ -11,6 +11,8 @@ public class Constants {
     public static final int RESULT_ERROR = 9;
     public static final int RESULT_ACCESS_DENIED = 10;
     public static final int CREATE_PKCS7 = 100;
+    public static final int APPEND_CODE = 200;
+    public static final int ATTACH_CODE = 300;
 
     /**
      * CALLBACK keys

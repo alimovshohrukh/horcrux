@@ -64,6 +64,121 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
     }
 
     /**
+     * @param context Current activity
+     */
+    fun appendPkcs7(context: Activity) {
+
+        val pkcs7: ByteArray = Base64.decode(getPKCS(), Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(
+            E_IMZO_APP,
+            E_IMZO_ACTIVITY
+        )
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_SERIAL_NUMBER, getSerialNumber())
+        intent.putExtra(EXTRA_PARAM_APPEND_PKCS7, pkcs7)
+        context.startActivityForResult(intent, APPEND_CODE)
+    }
+
+    /**
+     * @param context Current activity
+     * @param pkcs7String String value to generate PKCS7
+     */
+    fun appendPkcs7(context: Activity, pkcs7String: String) {
+        val pkcs7: ByteArray = Base64.decode(pkcs7String, Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(
+            E_IMZO_APP,
+            E_IMZO_ACTIVITY
+        )
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_SERIAL_NUMBER, getSerialNumber())
+        intent.putExtra(EXTRA_PARAM_APPEND_PKCS7, pkcs7)
+        context.startActivityForResult(intent, APPEND_CODE)
+    }
+
+    /**
+     * @param context Current activity
+     * @param pkcs7String String value to generate PKCS7
+     * @param serialNumber String value of serialNumber
+     */
+    fun appendPkcs7(context: Activity, pkcs7String: String, serialNumber: String) {
+        val pkcs7: ByteArray = Base64.decode(pkcs7String, Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(
+            E_IMZO_APP,
+            E_IMZO_ACTIVITY
+        )
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_SERIAL_NUMBER, serialNumber)
+        intent.putExtra(EXTRA_PARAM_APPEND_PKCS7, pkcs7)
+        context.startActivityForResult(intent, APPEND_CODE)
+    }
+
+    /**
+     * @param context Current activity
+     * @param timeStamp String value timestamp
+     */
+    fun attachPkcs7(
+        context: Activity,
+        timeStamp: String
+    ) {
+        val pkcs7: ByteArray = Base64.decode(getPKCS(), Base64.NO_WRAP)
+        val tst: ByteArray = Base64.decode(timeStamp, Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(E_IMZO_APP, E_IMZO_ACTIVITY)
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_ATTACH_SERIAL_NUMBER, getSerialNumber())
+        intent.putExtra(EXTRA_PARAM_ATTACH_PKCS7, pkcs7)
+        intent.putExtra(EXTRA_PARAM_ATTACH_TST, tst)
+        context.startActivityForResult(intent, ATTACH_CODE)
+    }
+
+    /**
+     * @param context Current activity
+     * @param pkcs7String String value PKSC7
+     * @param timeStamp String value timestamp
+     */
+    fun attachPkcs7(
+        context: Activity,
+        pkcs7String: String,
+        timeStamp: String
+    ) {
+        val pkcs7: ByteArray = Base64.decode(pkcs7String, Base64.NO_WRAP)
+        val tst: ByteArray = Base64.decode(timeStamp, Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(E_IMZO_APP, E_IMZO_ACTIVITY)
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_ATTACH_SERIAL_NUMBER, getSerialNumber())
+        intent.putExtra(EXTRA_PARAM_ATTACH_PKCS7, pkcs7)
+        intent.putExtra(EXTRA_PARAM_ATTACH_TST, tst)
+        context.startActivityForResult(intent, ATTACH_CODE)
+    }
+
+    /**
+     * @param context Current activity
+     * @param pkcs7String String value PKSC7
+     * @param serialNumber String value serial numbe
+     * @param timeStamp String value timestamp
+     */
+    fun attachPkcs7(
+        context: Activity,
+        pkcs7String: String,
+        serialNumber: String,
+        timeStamp: String
+    ) {
+        val pkcs7: ByteArray = Base64.decode(pkcs7String, Base64.NO_WRAP)
+        val tst: ByteArray = Base64.decode(timeStamp, Base64.NO_WRAP)
+        val intent = Intent()
+        intent.setClassName(E_IMZO_APP, E_IMZO_ACTIVITY)
+        intent.putExtra(EXTRA_PARAM_API_KEY, apiKey)
+        intent.putExtra(EXTRA_PARAM_ATTACH_SERIAL_NUMBER, serialNumber)
+        intent.putExtra(EXTRA_PARAM_ATTACH_PKCS7, pkcs7)
+        intent.putExtra(EXTRA_PARAM_ATTACH_TST, tst)
+        context.startActivityForResult(intent, ATTACH_CODE)
+    }
+
+    /**
      * Parse PFX file
      */
     fun parsePFX(data: Intent?) {
@@ -88,7 +203,7 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
      */
     fun isLegal(): Boolean {
         val subject = readString(EXTRA_RESULT_SUBJECT_NAME)
-        return subject!!.contains(YUR_TIN)
+        return subject.contains(YUR_TIN)
     }
 
     /**
@@ -96,11 +211,11 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
      */
     fun isIndividual(): Boolean {
         val subject = readString(EXTRA_RESULT_SUBJECT_NAME)
-        return !subject!!.contains(YUR_TIN) && subject.contains(FIZ_TIN)
+        return !subject.contains(YUR_TIN) && subject.contains(FIZ_TIN)
     }
 
     /**
-     * Return tin
+     * @return User tin
      */
     fun getTin(): String {
         val subject = readString(EXTRA_RESULT_SUBJECT_NAME)
@@ -117,8 +232,25 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
         return ""
     }
 
-    fun getPKCS(): String? {
+    /**
+     * @return PKCS7
+     */
+    fun getPKCS(): String {
         return readString(EXTRA_RESULT_PKCS7)
+    }
+
+    /**
+     * @return Serial number
+     */
+    fun getSerialNumber(): String {
+        return readString(EXTRA_RESULT_SERIAL_NUMBER)
+    }
+
+    /**
+     * @return Subject name
+     */
+    fun getSubjectName(): String {
+        return readString(EXTRA_RESULT_SUBJECT_NAME)
     }
 
     /**
@@ -167,7 +299,7 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
     /**
      * Save temp data   FIXME
      */
-    private fun writeString(key: String?, property: String?) {
+    private fun writeString(key: String, property: String) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString(key, property)
@@ -177,10 +309,29 @@ class Horcrux(private val context: Context, private val apiKey: String) : Activi
     /**
      * Read temp data   FIXME
      */
-    private fun readString(key: String?): String? {
+    private fun readString(key: String?): String {
         val sharedPreferences = PreferenceManager
             .getDefaultSharedPreferences(context)
-        return sharedPreferences.getString(key, "")
+        return sharedPreferences.getString(key, "")!!
+    }
+
+    /**
+     * @param bytes Bytes to
+     * @return String
+     */
+    fun toHexString(bytes: ByteArray?): String {
+        val hexString = java.lang.StringBuilder()
+        if (bytes != null) {
+            for (aByte in bytes) {
+                val hex = Integer.toHexString(0xFF and aByte.toInt())
+                if (hex.length == 1) {
+                    hexString.append('0')
+                }
+                hexString.append(hex)
+            }
+            return hexString.toString()
+        }
+        return ""
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
